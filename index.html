@@ -99,6 +99,69 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <h2>Complex Rich Text Editors</h2>
+                <div class="input-group">
+                    <label>Medium-style Editor (Each line wrapped in &lt;p&gt;)</label>
+                    <div id="medium-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 120px; line-height: 1.6;">
+                        <p><br></p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Notion-style Editor (Complex nested structure)</label>
+                    <div id="notion-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 120px;">
+                        <div data-block-id="1">
+                            <p><span data-text="true"><br></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Google Docs-style (Spans for everything)</label>
+                    <div id="gdocs-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 120px; font-family: 'Arial', sans-serif;">
+                        <span style="font-size: 11pt; font-family: Arial; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"><br></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Slack-style Message Input</label>
+                    <div id="slack-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 12px; min-height: 80px; font-family: 'Slack-Lato', 'Helvetica Neue', Helvetica, 'Segoe UI', Tahoma, Arial, sans-serif;">
+                        <p data-stringify-type="paragraph" data-pm-slice="1 1 []"><br></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Edge Cases & Challenges</h2>
+                <div class="input-group">
+                    <label>Word-wrapped Elements (Each word in span)</label>
+                    <div id="word-wrap-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 100px;">
+                        <p>
+                            <span>Type</span> <span>your</span> <span>snippet</span> <span>here</span> <span>and</span> <span>see</span> <span>how</span> <span>it</span> <span>handles</span> <span>word</span> <span>boundaries.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Nested Structure with Attributes</label>
+                    <div id="nested-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 100px;">
+                        <div class="paragraph" data-paragraph-id="1">
+                            <span class="text-node" data-offset="0" style="color: #333;">Start typing here</span>
+                            <span class="cursor-placeholder" data-cursor="true">|</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Zero-Width Characters & Hidden Elements</label>
+                    <div id="hidden-chars-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 100px;">
+                        <p>Text with&#8203;<span style="display: none;" data-hidden="true">hidden</span>&#8203;zero-width&#8203;characters</p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Dynamic Content (Auto-wrapping)</label>
+                    <div id="dynamic-editor" contenteditable="true" style="border: 1px solid #ccc; padding: 15px; min-height: 100px;">
+                        <p data-line="1">Type here and watch new elements get created</p>
+                    </div>
+                </div>
+            </div>
             
             <div class="card">
                 <h2>Iframe</h2>

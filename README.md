@@ -18,7 +18,25 @@ The main challenge in developing TypeExpand is ensuring it works reliably across
 - **Content Editable Elements**: 
   - Simple div elements
   - Rich text simulation with paragraphs and lists
+- **Complex Rich Text Editors**:
+  - Medium-style editor (each line wrapped in `<p>` tags)
+  - Notion-style editor (complex nested block structure with data attributes)
+  - Google Docs-style editor (everything wrapped in heavily styled spans)
+  - Slack-style editor (ProseMirror-like structure with data attributes)
+- **Edge Cases & Challenges**:
+  - Word-wrapped elements (each word in individual spans)
+  - Nested structures with complex attributes
+  - Zero-width characters and hidden elements
+  - Dynamic content creation (auto-wrapping behavior)
 - **Iframe Content**: editable content within iframes
+
+### Complex Editor Behaviors
+The test page simulates realistic behaviors found in modern web applications:
+- **Auto-wrapping**: New paragraphs/blocks created on Enter key
+- **Dynamic DOM manipulation**: Elements created and restructured as you type
+- **Complex nesting**: Multiple levels of DOM hierarchy with data attributes
+- **Styled content**: Heavy inline styling that might interfere with text extraction
+- **Word boundaries**: Individual words wrapped in separate elements
 
 ### Features
 - Real-time input event logging in the browser console
@@ -49,9 +67,24 @@ When testing your TypeExpand extension with this page, consider:
 1. **Basic functionality**: Does snippet expansion work in standard text inputs?
 2. **Specialized inputs**: How does the extension handle email, URL, and number inputs?
 3. **Rich text environments**: Does expansion work in contenteditable divs with existing formatting?
-4. **Cross-frame compatibility**: Can snippets expand within iframe content?
-5. **Event handling**: Are input events properly captured and processed?
-6. **Cursor positioning**: Does the cursor remain in the correct position after expansion?
+4. **Complex editor structures**: 
+   - Can snippets be detected when text is split across multiple DOM elements?
+   - How does expansion handle Medium-style paragraph wrapping?
+   - Does it work with Notion-style nested block structures?
+   - Can it handle Google Docs-style heavy span wrapping?
+5. **Dynamic content**: Does expansion work when DOM structure changes during typing?
+6. **Word boundaries**: How does the extension handle snippets when words are in separate spans?
+7. **Cross-frame compatibility**: Can snippets expand within iframe content?
+8. **Event handling**: Are input events properly captured across all editor types?
+9. **Cursor positioning**: Does the cursor remain in the correct position after expansion in complex structures?
+10. **Text extraction**: Can the extension accurately extract snippet triggers from complex DOM trees?
+
+### Key Challenges to Test
+- **Text fragmentation**: Snippet triggers split across multiple DOM nodes
+- **DOM mutations**: Editors that restructure content as you type
+- **Selection complexity**: Maintaining cursor position in nested structures
+- **Event bubbling**: Ensuring events are captured in deeply nested elements
+- **Content extraction**: Getting the actual text content from heavily styled elements
 
 ## Development Notes
 
