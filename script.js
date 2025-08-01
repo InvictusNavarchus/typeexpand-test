@@ -53,23 +53,67 @@ function setupMediumStyleEditor() {
             const selection = window.getSelection();
             const range = selection.getRangeAt(0);
             
-            // Create new paragraph
-            const newP = document.createElement('p');
-            newP.innerHTML = '<br>';
-            
-            // Insert after current paragraph
-            const currentP = range.commonAncestorContainer.closest('p') || range.commonAncestorContainer.parentElement.closest('p');
-            if (currentP) {
-                currentP.parentNode.insertBefore(newP, currentP.nextSibling);
-            } else {
-                editor.appendChild(newP);
+            // Find the current paragraph
+            let currentP = range.commonAncestorContainer;
+            if (currentP.nodeType === Node.TEXT_NODE) {
+                currentP = currentP.parentElement;
+            }
+            if (!currentP.matches('p')) {
+                currentP = currentP.closest('p');
             }
             
-            // Move cursor to new paragraph
-            range.setStart(newP, 0);
-            range.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(range);
+            // If no paragraph found, create one and wrap current content
+            if (!currentP) {
+                currentP = document.createElement('p');
+                if (editor.childNodes.length > 0) {
+                    while (editor.firstChild) {
+                        currentP.appendChild(editor.firstChild);
+                    }
+                } else {
+                    currentP.innerHTML = '<br>';
+                }
+                editor.appendChild(currentP);
+                
+                // Update range to point to the new paragraph
+                range.setStart(currentP, 0);
+                range.collapse(true);
+            }
+            
+            // Create new paragraph
+            const newP = document.createElement('p');
+            
+            // Extract content after cursor to new paragraph
+            const afterRange = range.cloneRange();
+            afterRange.setEndAfter(currentP.lastChild || currentP);
+            const afterContent = afterRange.extractContents();
+            
+            // If there's content after cursor, put it in the new paragraph
+            if (afterContent.textContent.trim() || afterContent.childNodes.length > 0) {
+                newP.appendChild(afterContent);
+            } else {
+                newP.innerHTML = '<br>';
+            }
+            
+            // If current paragraph is now empty, add a br
+            if (!currentP.textContent.trim() && currentP.childNodes.length === 0) {
+                currentP.innerHTML = '<br>';
+            }
+            
+            // Insert new paragraph after current one
+            currentP.parentNode.insertBefore(newP, currentP.nextSibling);
+            
+            // Move cursor to beginning of new paragraph
+            const newRange = document.createRange();
+            const selection2 = window.getSelection();
+            
+            if (newP.firstChild && newP.firstChild.nodeType === Node.TEXT_NODE) {
+                newRange.setStart(newP.firstChild, 0);
+            } else {
+                newRange.setStart(newP, 0);
+            }
+            newRange.collapse(true);
+            selection2.removeAllRanges();
+            selection2.addRange(newRange);
         }
     });
 }
